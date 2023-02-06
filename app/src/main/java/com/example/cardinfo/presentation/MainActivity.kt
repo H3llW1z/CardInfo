@@ -1,7 +1,8 @@
-package com.example.cardinfo
+package com.example.cardinfo.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.cardinfo.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
