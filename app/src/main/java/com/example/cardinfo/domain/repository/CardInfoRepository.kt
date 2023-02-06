@@ -6,12 +6,12 @@ import com.example.cardinfo.domain.entity.Result
 
 interface CardInfoRepository {
 
-    fun getCardInfo(bin: String): Result
+    suspend fun getCardInfo(bin: String): Result
 
     fun getPreviousRequests(): LiveData<List<CardInfo>>
 
-    fun addToPreviousRequests(cardInfo: CardInfo)
+    suspend fun addToPreviousRequests(cardInfo: CardInfo)
 
-    fun removeFromPreviousRequests(id: Int)
+    suspend fun removeFromPreviousRequests(id: Long)
 
 }
