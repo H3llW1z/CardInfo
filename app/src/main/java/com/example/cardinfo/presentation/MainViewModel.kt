@@ -1,12 +1,10 @@
 package com.example.cardinfo.presentation
 
-import android.app.Application
 import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cardinfo.data.implementation.CardInfoRepositoryImpl
 import com.example.cardinfo.domain.entity.CardInfo
 import com.example.cardinfo.domain.entity.Result
 import com.example.cardinfo.domain.usecases.AddToPreviousRequestsUseCase
@@ -15,13 +13,15 @@ import com.example.cardinfo.domain.usecases.GetPreviousRequestsUseCase
 import com.example.cardinfo.domain.usecases.RemoveFromPreviousRequestsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = CardInfoRepositoryImpl(application)
-    private val getCardInfoUseCase = GetCardInfoUseCase(repository)
-    private val getPreviousRequestsUseCase = GetPreviousRequestsUseCase(repository)
-    private val addToPreviousRequestsUseCase = AddToPreviousRequestsUseCase(repository)
-    private val removeFromPreviousRequestsUseCase = RemoveFromPreviousRequestsUseCase(repository)
+class MainViewModel @Inject constructor(
+    private val getCardInfoUseCase: GetCardInfoUseCase,
+    private val getPreviousRequestsUseCase: GetPreviousRequestsUseCase,
+    private val addToPreviousRequestsUseCase: AddToPreviousRequestsUseCase,
+    private val removeFromPreviousRequestsUseCase: RemoveFromPreviousRequestsUseCase
+) : ViewModel() {
+
 
     private val _state: MutableLiveData<State> = MutableLiveData()
     val state: LiveData<State>
@@ -31,7 +31,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadCardInfo(bin: String) {
         if (!bin.isDigitsOnly() || bin.length < 6) {
-            _state.value =  State.InputError
+            _state.value = State.InputError
             return
         }
         viewModelScope.launch {

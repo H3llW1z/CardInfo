@@ -13,21 +13,32 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cardinfo.R
 import com.example.cardinfo.databinding.ActivityMainBinding
+import com.example.cardinfo.di.ApplicationComponent
 import com.example.cardinfo.domain.entity.CardInfo
 import com.example.cardinfo.presentation.adapters.CardInfoAdapter
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var viewModel: MainViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: ActivityMainBinding
     private lateinit var cardInfoAdapter: CardInfoAdapter
 
+    private val component: ApplicationComponent by lazy {
+        (application as CardInfoApplication).component
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         prepareStateObservation()
         preparePreviousRequestsRecyclerView()
         prepareSearchEditText()
@@ -159,12 +170,14 @@ class MainActivity : AppCompatActivity() {
                 textViewScheme.text = scheme.capitalize().ifBlank { getString(R.string.unknown) }
                 textViewBrand.text = brand.capitalize().ifBlank { getString(R.string.unknown) }
                 textViewType.text = type.capitalize().ifBlank { getString(R.string.unknown) }
-                textViewPrepaid.text = if (isPrepaid) getString(R.string.yes) else getString(R.string.no)
+                textViewPrepaid.text =
+                    if (isPrepaid) getString(R.string.yes) else getString(R.string.no)
                 textViewNumberLength.text = if (numberLength == -1) {
                     getString(R.string.unknown)
                 } else numberLength.toString()
 
-                textViewIsLuhn.text = if (isLuhn) getString(R.string.yes) else getString(R.string.no)
+                textViewIsLuhn.text =
+                    if (isLuhn) getString(R.string.yes) else getString(R.string.no)
                 textViewCountry.text = countryInfo.name.ifBlank { getString(R.string.unknown) }
                 textViewCoordinates.text = if (countryInfo.latitude != 0.0) {
                     String.format(
@@ -193,7 +206,7 @@ class MainActivity : AppCompatActivity() {
                 textViewCoordinates.setOnClickListener {
                     val latitude = cardInfo.countryInfo.latitude
                     val longitude = cardInfo.countryInfo.longitude
-                    if ( latitude!= 0.0 &&  longitude != 0.0) {
+                    if (latitude != 0.0 && longitude != 0.0) {
                         openMaps(latitude, longitude)
                     }
                 }

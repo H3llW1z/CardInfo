@@ -1,21 +1,21 @@
 package com.example.cardinfo.data.implementation
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.cardinfo.data.api.ApiFactory
-import com.example.cardinfo.data.db.AppDatabase
+import com.example.cardinfo.data.api.ApiService
+import com.example.cardinfo.data.db.CardInfoDao
 import com.example.cardinfo.data.toDbModel
 import com.example.cardinfo.data.toEntity
 import com.example.cardinfo.domain.entity.CardInfo
 import com.example.cardinfo.domain.entity.Result
 import com.example.cardinfo.domain.repository.CardInfoRepository
+import javax.inject.Inject
 
 
-class CardInfoRepositoryImpl(application: Application): CardInfoRepository {
-
-    private val apiService = ApiFactory.apiService
-    private val cardInfoDao = AppDatabase.getInstance(application).cardInfoDao()
+class CardInfoRepositoryImpl @Inject constructor(
+    private val cardInfoDao: CardInfoDao,
+    private val apiService: ApiService
+) : CardInfoRepository {
 
     override suspend fun getCardInfo(bin: String): Result {
         try {
@@ -37,7 +37,7 @@ class CardInfoRepositoryImpl(application: Application): CardInfoRepository {
         return Transformations.map(
             cardInfoDao.getPreviousRequests()
         ) { list ->
-            list.map {it.toEntity()}
+            list.map { it.toEntity() }
         }
     }
 
