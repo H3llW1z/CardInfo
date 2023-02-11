@@ -16,6 +16,6 @@ interface CardInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCardInfo(cardInfoDbModel: CardInfoDbModel)
 
-    @Query("DELETE FROM card_info WHERE id=:cardInfoId")
-    suspend fun deleteCardInfo(cardInfoId: Long)
+    @Query("DELETE FROM card_info WHERE bin=:bin")
+    suspend fun deleteCardInfo(bin: String)
 }

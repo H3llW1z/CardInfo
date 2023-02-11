@@ -22,7 +22,7 @@ class CardInfoRepositoryImpl(application: Application): CardInfoRepository {
             val response = apiService.getCardInfo(bin)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    return Result.Success(it.toEntity())
+                    return Result.Success(it.toEntity(bin))
                 }
                 return Result.Error.CardNotFound
             } else {
@@ -45,13 +45,14 @@ class CardInfoRepositoryImpl(application: Application): CardInfoRepository {
         cardInfoDao.addCardInfo(cardInfo.toDbModel())
     }
 
-    override suspend fun removeFromPreviousRequests(id: Long) {
-        cardInfoDao.deleteCardInfo(id)
+    override suspend fun removeFromPreviousRequests(bin: String) {
+        cardInfoDao.deleteCardInfo(bin)
     }
 
     private fun mapHttpCodeToErrorEntity(code: Int): Result {
         return when (code) {
             401, 403 -> throw RuntimeException("Auth error")
+            404 -> Result.Error.CardNotFound
             in 400..451 -> throw RuntimeException("Client error")
             in 500..526 -> Result.Error.ServerError
             else -> Result.Error.NetworkError

@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "card_info")
 data class CardInfoDbModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey
+    val bin: String,
     val numberLength: Int,
     val isLuhn: Boolean,
     val scheme: String,

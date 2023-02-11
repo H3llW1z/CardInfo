@@ -12,6 +12,6 @@ interface CardInfoRepository {
 
     suspend fun addToPreviousRequests(cardInfo: CardInfo)
 
-    suspend fun removeFromPreviousRequests(id: Long)
+    suspend fun removeFromPreviousRequests(bin: String)
 
 }

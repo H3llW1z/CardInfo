@@ -1,7 +1,7 @@
 package com.example.cardinfo.domain.entity
 
 data class CardInfo(
-    val id: Long,
+    val bin: String,
     val numberLength: Int,
     val isLuhn: Boolean,
     val scheme: String,

@@ -8,9 +8,9 @@ import com.example.cardinfo.domain.entity.BankInfo
 import com.example.cardinfo.domain.entity.CardInfo
 import com.example.cardinfo.domain.entity.CountryInfo
 
-fun CardInfoDto.toEntity(): CardInfo {
+fun CardInfoDto.toEntity(bin: String): CardInfo {
     return CardInfo(
-        id = 0,
+        bin = bin,
         numberLength = this.cardNumberInfoDto?.length ?: -1,
         isLuhn = this.cardNumberInfoDto?.luhn ?: false,
         scheme = this.scheme ?: "",
@@ -23,8 +23,8 @@ fun CardInfoDto.toEntity(): CardInfo {
             "",
             "",
             "",
-            -1.0,
-            -1.0,
+            0.0,
+            0.0,
         ),
         bankInfo = bankInfoDto?.toEntity() ?: BankInfo("", "", "", ""),
     )
@@ -37,8 +37,8 @@ fun CountryInfoDto.toEntity(): CountryInfo {
         name = name ?: "",
         emoji = emoji ?: "",
         currency = currency ?: "",
-        latitude = latitude ?: -1.0,
-        longitude = longitude ?: -1.0
+        latitude = latitude ?: 0.0,
+        longitude = longitude ?: 0.0
     )
 }
 
@@ -53,7 +53,7 @@ fun BankInfoDto.toEntity(): BankInfo {
 
 fun CardInfoDbModel.toEntity(): CardInfo {
     return CardInfo(
-        id = id,
+        bin = bin,
         numberLength = numberLength,
         isLuhn = isLuhn,
         scheme = scheme,
@@ -67,7 +67,7 @@ fun CardInfoDbModel.toEntity(): CardInfo {
 
 fun CardInfo.toDbModel(): CardInfoDbModel {
     return CardInfoDbModel(
-        id = 0,
+        bin = bin,
         numberLength = numberLength,
         isLuhn = isLuhn,
         scheme = scheme,

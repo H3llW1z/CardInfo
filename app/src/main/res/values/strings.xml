@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Card Info</string>
+    <string name="enter_bin">Введите BIN</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="coordinates_template">(%s, %s)</string>
+    <string name="server_error_ocurred">Произошла ошибка сервера. Попробуйте еще раз.</string>
+    <string name="check_network_connection">Проверьте подключение к интернету.</string>
+    <string name="card_info_not_found">Данные о карте не найдены.</string>
+    <string name="enter_min_6_digits">Введите минимум 6 цифр.</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="system">Система</string>
+    <string name="brand">Бренд</string>
+    <string name="type">Тип</string>
+    <string name="prepaid_card">Предоплаченная карта</string>
+    <string name="country">Страна</string>
+    <string name="coordinates">Координаты</string>
+    <string name="bank">Банк</string>
+    <string name="web_site">Сайт</string>
+    <string name="phone">Телефон</string>
+    <string name="number_name">Длина номера</string>
+    <string name="is_luhn">Поддерживает алгоритм Луна</string>
+    <string name="bin">BIN</string>
 </resources>
