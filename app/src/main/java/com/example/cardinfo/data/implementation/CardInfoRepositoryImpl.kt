@@ -1,7 +1,7 @@
 package com.example.cardinfo.data.implementation
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.example.cardinfo.data.api.ApiService
 import com.example.cardinfo.data.db.CardInfoDao
 import com.example.cardinfo.data.toDbModel
@@ -34,9 +34,7 @@ class CardInfoRepositoryImpl @Inject constructor(
     }
 
     override fun getPreviousRequests(): LiveData<List<CardInfo>> {
-        return Transformations.map(
-            cardInfoDao.getPreviousRequests()
-        ) { list ->
+        return cardInfoDao.getPreviousRequests().map { list ->
             list.map { it.toEntity() }
         }
     }
